@@ -226,6 +226,30 @@ router.route('/deleteposition/:position_id').delete((request, response) => {
 
 });
 
+router.route('/getsitesetting').get((request, response) => {
+
+    dboperations.getSiteSetting().then(result => {
+        response.json(result);
+    }).catch(err => {
+        console.error(err);
+        response.sendStatus(500);
+    });
+
+});
+
+router.route('/updatesitesetting').post((request, response) => {
+
+    let hospital_setting = { ...request.body };
+
+    dboperations.updateSiteSetting(hospital_setting).then(result => {
+        response.status(200).json(result);
+    }).catch(err => {
+        console.error(err);
+        response.sendStatus(500);
+    });
+
+});
+
 var port = process.env.PORT;
 app.listen(port);
 console.log('role-crud API is running at ' + port);

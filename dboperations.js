@@ -78,9 +78,10 @@ async function addField(field) {
         console.log("addField call try connect to server, field name = " + field.field_name);
         let pool = await sql.connect(config);
         console.log("connect complete");
-        let result = await pool.request()
+        await pool.request()
             .input('field_name', sql.VarChar, field.field_name)
-            .query("INSERT INTO personnel_fields (field_name, field_isactive) VALUES (@field_name, 1)");
+            .input('hims_id', sql.VarChar, field.hims_id)
+            .query("INSERT INTO personnel_fields (field_name, field_isactive, hims_id) VALUES (@field_name, 1, @hims_id)");
         console.log("addField complete");
         console.log("====================");
         return { "status": "ok" };
@@ -97,10 +98,11 @@ async function addFaction(faction) {
         console.log("addFaction call try connect to server, faction name = " + faction.faction_name + " field id = " + faction.field_id);
         let pool = await sql.connect(config);
         console.log("connect complete");
-        let result = await pool.request()
+        await pool.request()
             .input('faction_name', sql.VarChar, faction.faction_name)
             .input('field_id', sql.Int, faction.field_id)
-            .query("INSERT INTO personnel_factions (faction_name, faction_isactive, field_id) VALUES (@faction_name, 1, @field_id)");
+            .input('hims_id', sql.VarChar, faction.hims_id)
+            .query("INSERT INTO personnel_factions (faction_name, faction_isactive, field_id, hims_id) VALUES (@faction_name, 1, @field_id, @hims_id)");
         console.log("addFaction complete");
         console.log("====================");
         return { "status": "ok" };
@@ -118,10 +120,11 @@ async function addDepartment(department) {
         console.log("addDepartment call try connect to server, department name = " + department.department_name + " facion id = " + department.faction_id);
         let pool = await sql.connect(config);
         console.log("connect complete");
-        let result = await pool.request()
+        await pool.request()
             .input('department_name', sql.VarChar, department.department_name)
             .input('faction_id', sql.Int, department.faction_id)
-            .query("INSERT INTO personnel_departments (department_name, department_isactive, faction_id) VALUES (@department_name, 1, @faction_id)");
+            .input('hims_id', sql.VarChar, department.hims_id)
+            .query("INSERT INTO personnel_departments (department_name, department_isactive, faction_id, hims_id) VALUES (@department_name, 1, @faction_id, @hims_id)");
         console.log("addDepartment complete");
         console.log("====================");
         return { "status": "ok" };
@@ -139,10 +142,11 @@ async function addPosition(position) {
         console.log("addPosition call try connect to server, position name = " + position.position_name + " department id = " + position.department_id);
         let pool = await sql.connect(config);
         console.log("connect complete");
-        let result = await pool.request()
+        await pool.request()
             .input('position_name', sql.VarChar, position.position_name)
             .input('department_id', sql.Int, position.department_id)
-            .query("INSERT INTO personnel_positions (position_name, position_isactive, department_id) VALUES (@position_name, 1, @department_id)");
+            .input('hims_id', sql.VarChar, position.hims_id)
+            .query("INSERT INTO personnel_positions (position_name, position_isactive, department_id, hims_id) VALUES (@position_name, 1, @department_id, @hims_id)");
         console.log("addPosition complete");
         console.log("====================");
         return { "status": "ok" };
@@ -160,10 +164,11 @@ async function updateField(field) {
         console.log("updateField call try connect to server, field id = " + field.field_id + " new field name = " + field.field_name);
         let pool = await sql.connect(config);
         console.log("connect complete");
-        let result = await pool.request()
+        await pool.request()
             .input('field_id', sql.Int, field.field_id)
             .input('field_name', sql.VarChar, field.field_name)
-            .query("UPDATE personnel_fields SET field_name = @field_name WHERE field_id = @field_id");
+            .input('hims_id', sql.VarChar, field.hims_id)
+            .query("UPDATE personnel_fields SET field_name = @field_name, hims_id = @hims_id WHERE field_id = @field_id");
         console.log("updateField complete");
         console.log("====================");
         return { "status": "ok" };
@@ -181,11 +186,12 @@ async function updateFaction(faction) {
         console.log("updateFaction call try connect to server, faction id = " + faction.faction_id + " new faction name = " + faction.faction_name + " new field id = " + faction.field_id);
         let pool = await sql.connect(config);
         console.log("connect complete");
-        let result = await pool.request()
+        await pool.request()
             .input('faction_id', sql.Int, faction.faction_id)
             .input('faction_name', sql.VarChar, faction.faction_name)
             .input('field_id', sql.Int, faction.field_id)
-            .query("UPDATE personnel_factions SET faction_name = @faction_name, field_id = @field_id WHERE faction_id = @faction_id");
+            .input('hims_id', sql.VarChar, faction.hims_id)
+            .query("UPDATE personnel_factions SET faction_name = @faction_name, field_id = @field_id, hims_id = @hims_id WHERE faction_id = @faction_id");
         console.log("updatefaction complete");
         console.log("====================");
         return { "status": "ok" };
@@ -207,7 +213,8 @@ async function updateDepartment(department) {
             .input('department_id', sql.Int, department.department_id)
             .input('department_name', sql.VarChar, department.department_name)
             .input('faction_id', sql.Int, department.faction_id)
-            .query("UPDATE personnel_departments SET department_name = @department_name, faction_id = @faction_id WHERE department_id = @department_id");
+            .input('hims_id', sql.VarChar, department.hims_id)
+            .query("UPDATE personnel_departments SET department_name = @department_name, faction_id = @faction_id, hims_id = @hims_id WHERE department_id = @department_id");
         console.log("updatedepartment complete");
         console.log("====================");
         return { "status": "ok" };
@@ -229,7 +236,8 @@ async function updatePosition(position) {
             .input('position_id', sql.Int, position.position_id)
             .input('position_name', sql.VarChar, position.position_name)
             .input('department_id', sql.Int, position.department_id)
-            .query("UPDATE personnel_positions SET position_name = @position_name, department_id = @department_id WHERE position_id = @position_id");
+            .input('hims_id', sql.VarChar, position.hims_id)
+            .query("UPDATE personnel_positions SET position_name = @position_name, department_id = @department_id, hims_id = @hims_id WHERE position_id = @position_id");
         console.log("updateposition complete");
         console.log("====================");
         return { "status": "ok" };
@@ -728,6 +736,47 @@ async function deletePosition(position_id) {
     }
 }
 
+async function getSiteSetting() {
+    try {
+        console.log("getSiteSetting call try connect to server");
+        const pool = await sql.connect(config);
+        console.log("connect complete");
+        let result = await pool.request().query("SELECT * FROM hospital_setting");
+        const jsonData = {
+            fname: result.recordset[0].fname,
+            sname: result.recordset[0].sname,
+            logo: Buffer.from(result.recordset[0].logo).toString(),
+        }
+        console.log("getSiteSetting complete");
+        console.log("====================");
+        return jsonData;
+    }
+    catch (error) {
+        console.error(error);
+        return { "status": "error", "message": error.message };
+    }
+}
+
+async function updateSiteSetting(hospital_setting) {
+    try {
+        console.log("updateSiteSetting call try connect to server");
+        const pool = await sql.connect(config);
+        console.log("connect complete");
+        await pool.request()
+            .input("fname", sql.VarChar, hospital_setting.fname)
+            .input("sname", sql.VarChar, hospital_setting.sname)
+            .input("logo", sql.VarBinary, Buffer.from(hospital_setting.logo))
+            .query("UPDATE hospital_setting SET fname = @fname, sname = @sname, logo = @logo");
+        console.log("updateSiteSetting complete");
+        console.log("====================");
+        return { "status": "ok" };
+    }
+    catch (error) {
+        console.error(error);
+        return { "status": "error", "message": error.message };
+    }
+}
+
 module.exports = {
     addField: addField,
     addFaction: addFaction,
@@ -745,4 +794,6 @@ module.exports = {
     deleteFaction: deleteFaction,
     deleteDepartment: deleteDepartment,
     deletePosition: deletePosition,
+    getSiteSetting: getSiteSetting,
+    updateSiteSetting: updateSiteSetting,
 }
