@@ -4,7 +4,7 @@ const sql = require('mssql');
 
 async function getPersonnelData() {
     console.log("let getPersonnelData");
-    const result = await fetch(`http://${process.env.prodHost}:${process.env.psnDataDistPort}/api/getpersonnel`)
+    const result = await fetch(`http://${process.env.backendHost}:${process.env.psnDataDistPort}/api/getpersonnel`)
         .then((response) => response.json())
         .then((data) => {
             console.log("getPersonnelData complete");
@@ -18,7 +18,7 @@ async function getPersonnelData() {
 
 async function getFieldsData() {
     console.log("let getFieldsData");
-    const result = await fetch(`http://${process.env.prodHost}:${process.env.psnDataDistPort}/api/getfields`)
+    const result = await fetch(`http://${process.env.backendHost}:${process.env.psnDataDistPort}/api/getfields`)
         .then((response) => response.json())
         .then((data) => {
             console.log("getFieldsData complete");
@@ -32,7 +32,7 @@ async function getFieldsData() {
 
 async function getFactionsData() {
     console.log("let getFactionsData");
-    const result = await fetch(`http://${process.env.prodHost}:${process.env.psnDataDistPort}/api/getfactions`)
+    const result = await fetch(`http://${process.env.backendHost}:${process.env.psnDataDistPort}/api/getfactions`)
         .then((response) => response.json())
         .then((data) => {
             console.log("getFactionsData complete");
@@ -46,7 +46,7 @@ async function getFactionsData() {
 
 async function getDepartmentsData() {
     console.log("let getDepartmentsData");
-    const result = await fetch(`http://${process.env.prodHost}:${process.env.psnDataDistPort}/api/getdepartments`)
+    const result = await fetch(`http://${process.env.backendHost}:${process.env.psnDataDistPort}/api/getdepartments`)
         .then((response) => response.json())
         .then((data) => {
             console.log("getDepartmentsData complete");
@@ -60,7 +60,7 @@ async function getDepartmentsData() {
 
 async function getPositionsData() {
     console.log("let getPositionsData");
-    const result = await fetch(`http://${process.env.prodHost}:${process.env.psnDataDistPort}/api/getpositions`)
+    const result = await fetch(`http://${process.env.backendHost}:${process.env.psnDataDistPort}/api/getpositions`)
         .then((response) => response.json())
         .then((data) => {
             console.log("getPositionsData complete");
